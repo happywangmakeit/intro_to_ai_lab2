@@ -39,6 +39,7 @@ if __name__ == "__main__":
             losss.append(loss)
         loss = np.average(losss)
         acc = np.average(np.concatenate(hatys)==np.concatenate(ys))
+        #lr*=0.999
         print(f"epoch {i} loss {loss:.3e} acc {acc:.4f}")
         if acc > best_train_acc:
             best_train_acc = acc

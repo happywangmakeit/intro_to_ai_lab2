@@ -1,3 +1,4 @@
+
 import numpy as np
 # you only need matplotlib if you want to create some plots of the data
 import matplotlib.pyplot as plt
@@ -24,4 +25,4 @@ if __name__ == "__main__":
     with open(save_path, "wb") as f:
         pickle.dump(root, f)
     pred = np.array([inferTree(root, val_X[i]) for i in range(val_X.shape[0])])
-    print("valid acc", np.average(pred==val_Y))
+    print("valid acc", np.average(pred==val_Y)) # acc 0.7785

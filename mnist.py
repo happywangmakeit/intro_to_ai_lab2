@@ -1,3 +1,4 @@
+
 import numpy as np
 from PIL import Image, ImageFilter
 trn_X = np.load('MNIST/train_data.npy').astype(np.float64)
@@ -10,18 +11,19 @@ num_class = np.max(trn_Y) + 1
 
 val_X = np.load('MNIST/valid_data.npy').astype(np.float64)
 val_Y = np.load('MNIST/valid_targets.npy')
-val_X = val_X.reshape(val_X.shape[0], -1)
+val_X = val_X.reshape(val_X.shape[0], -1) 
 
-test_X = np.load('MNIST/test_data.npy').astype(np.float64)
-test_Y = np.load('MNIST/test_targets.npy')
+data = np.load('MNIST/test_data.npy').astype(float)*255
+targets = np.load('MNIST/test_targets.npy')
 
-num_data = test_X.shape[0]
+num_data = data.shape[0]
 
 def getdata(idx):
-    return test_X[idx]
+    return data[idx]
 
 def gety(idx):
-    return test_Y[idx]
+    return targets[idx]
 
 def getdatasets(y):
-    return np.arange(num_data)[test_Y==y]
+    return np.arange(num_data)[targets==y]
+

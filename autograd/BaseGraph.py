@@ -8,7 +8,7 @@ class Graph(List):
     def __init__(self, nodes: List[Node]):
         super().__init__()
         for node in nodes:
-            self.append(node) # 按照前向传播的顺序添加节点。注意，self本身即为存储节点的list。
+            self.append(node)
 
     def eval(self):
         for node in self:
@@ -31,8 +31,6 @@ class Graph(List):
         @return: 计算图中各个节点的输出
         """
         ret = []
-        if debug:
-            print("forward debug start")
         if removelossnode > 0:
             nlist = self[:-removelossnode]
         else:
@@ -40,8 +38,6 @@ class Graph(List):
         for n in nlist:
             X = n.forward(X, debug)
             ret.append(X)
-        if debug:
-            print("forward debug end")
         return ret
 
     def backward(self, grad=1.0, debug=False):
@@ -49,25 +45,34 @@ class Graph(List):
         反向传播
         @param grad: 1, 从最后一层开始反传的梯度值
         @param debug: 用于debug, print上游和下游梯度的shape
-        @return: 反传结束得到的梯度（损失函数对输入的偏导）
+        @return: 反传结束得到的梯度
         """
-        if debug:
-            print("backward debug start")
         # TODO: YOUR CODE HERE
-        if debug:
-            print("backward debug end")
+        ret = []
+        nlist = self[::-1]
+        for n in nlist:
+            grad = n.backward(grad,debug)
+        return grad
+
+
+
         raise NotImplementedError
     
     def optimstep(self, lr, wd1, wd2):
         """
         利用计算好的梯度对参数进行更新
         @param lr: 超参数，学习率
-        @param wd1: 超参数, L1正则化。选做，可不实现。
+        @param wd1: 超参数, L1正则化。选做, 可不实现。
         @param wd2: 超参数, L2正则化
         @return: 不需要返回值
         """  
         # TODO: YOUR CODE HERE
-        raise NotImplementedError
+        params = self.parameters()
+        grads = self.grads()
+        for i, param in enumerate(params):
+            param -= lr * grads[i] + 2*wd2*param
+
+        #raise NotImplementedError
 
     def parameters(self):
         """

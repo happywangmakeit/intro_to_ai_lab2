@@ -7,9 +7,9 @@ from autograd.BaseNode import *
 
 # 超参数
 # TODO: You can change the hyperparameters here
-lr = 1e-5   # 学习率
-wd1 = 1e-5  # L1正则化
-wd2 = 1e-5  # L2正则化
+lr = 1e-2   # 学习率
+wd1 = 1e-2  # L1正则化
+wd2 = 0.01  # L2正则化
 batchsize = 128
 
 def buildGraph(Y):
@@ -19,4 +19,14 @@ def buildGraph(Y):
     @return: Graph类的实例, 建好的图
     """
     # TODO: YOUR CODE HERE
-    return None
+    #lr 1e-2
+    nodes = [StdScaler(mnist.mean_X, mnist.std_X), 
+             Linear(mnist.num_feat,256),
+             relu(),
+             Linear(256,256),
+             relu(),
+             Linear(256,10),
+             LogSoftmax(), 
+             NLLLoss(Y)]
+    graph=Graph(nodes)
+    return graph
